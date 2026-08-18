@@ -1,5 +1,6 @@
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
 import type { QuotationRequest, CreateQuotationInput } from '../types/quotation';
+import { emailService } from './emailService';
 
 const LOCAL_STORAGE_KEY = 'media_advertising_quotations';
 
@@ -45,6 +46,11 @@ const saveLocalQuotations = (quotations: QuotationRequest[]) => {
 
 export const quotationService = {
   async submitQuotationRequest(input: CreateQuotationInput): Promise<{ data: QuotationRequest | null; error: string | null }> {
+    // Trigger automated email notification to algarousha@hotmail.com asynchronously
+    emailService.sendQuotationEmailNotification(input).catch((err) => {
+      console.warn('Background email notification error:', err);
+    });
+
     if (!isSupabaseConfigured) {
       const local = getLocalQuotations();
       const newQuotation: QuotationRequest = {

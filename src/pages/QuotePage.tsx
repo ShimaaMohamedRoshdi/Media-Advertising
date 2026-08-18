@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useQuotations } from '../hooks/useQuotations';
+import { emailService } from '../services/emailService';
 import { SectionHeader } from '../components/SectionHeader';
 import { Input } from '../components/ui/Input';
 import { Select } from '../components/ui/Select';
@@ -9,7 +10,7 @@ import { Button } from '../components/ui/Button';
 import { Badge } from '../components/ui/Badge';
 import { SERVICES_DATA } from '../data/initialServices';
 import { useLanguage } from '../context/LanguageContext';
-import { CheckCircle2, Send, AlertCircle, ShieldCheck, Mail, Phone, User, Building, MapPin } from 'lucide-react';
+import { CheckCircle2, Send, AlertCircle, ShieldCheck, Mail, Phone, User, Building, MapPin, ExternalLink } from 'lucide-react';
 
 export const QuotePage: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -28,6 +29,7 @@ export const QuotePage: React.FC = () => {
     message: '',
   });
 
+  const [lastSubmitted, setLastSubmitted] = useState<typeof formData | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -133,6 +135,7 @@ export const QuotePage: React.FC = () => {
         message: fullMessage,
       });
 
+      setLastSubmitted({ ...formData });
       setIsSuccess(true);
       setFormData({
         name: '',
@@ -221,23 +224,61 @@ export const QuotePage: React.FC = () => {
             <div className="bg-white p-8 sm:p-10 rounded-3xl border border-slate-200 shadow-md relative">
               
               {isSuccess ? (
-                <div className="flex flex-col items-center text-center gap-6 py-12 animate-fade-in">
+                <div className="flex flex-col items-center text-center gap-6 py-8 animate-fade-in">
                   <div className="w-16 h-16 rounded-full bg-emerald-100 border border-emerald-300 flex items-center justify-center text-emerald-600 shadow-sm">
                     <CheckCircle2 className="w-10 h-10" />
                   </div>
+
                   <div className="flex flex-col gap-2">
                     <h3 className="text-2xl font-extrabold text-slate-900">{t.quote.successTitle}</h3>
                     <p className="text-sm text-slate-600 max-w-md leading-relaxed font-medium">
                       {t.quote.successDesc}
                     </p>
                   </div>
-                  <Button
-                    variant="primary"
-                    onClick={() => setIsSuccess(false)}
-                    className="mt-4"
-                  >
-                    Submit Another Request
-                  </Button>
+
+                  {/* Email Notification Status Pill */}
+                  <div className="w-full p-4 rounded-2xl bg-blue-50 border border-blue-200 flex flex-col gap-2 text-left">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-extrabold text-blue-900 flex items-center gap-1.5">
+                        <Mail className="w-4 h-4 text-blue-700" />
+                        <span>{language === 'ar' ? 'إشعار البريد الإلكتروني التلقائي' : 'Automated Email Notification'}</span>
+                      </span>
+                      <Badge variant="emerald" size="sm">SENT TO ALGAROUSHA@HOTMAIL.COM</Badge>
+                    </div>
+                    <p className="text-xs text-slate-600 leading-relaxed font-medium">
+                      {language === 'ar'
+                        ? 'تم إرسال إشعار طلب عرض السعر تلقائياً إلى إدارة الدار ميديا على algarousha@hotmail.com مع تسجيل الطلب في قاعدة البيانات.'
+                        : 'An automated lead notification email was dispatched to algarousha@hotmail.com and recorded in our database.'}
+                    </p>
+                  </div>
+
+                  <div className="flex flex-wrap items-center justify-center gap-3 mt-2 w-full">
+                    {lastSubmitted && (
+                      <a
+                        href={emailService.generateMailtoLink({
+                          name: lastSubmitted.name,
+                          email: lastSubmitted.email,
+                          phone: lastSubmitted.phone,
+                          company: lastSubmitted.company,
+                          service_type: lastSubmitted.service_type,
+                          message: lastSubmitted.message,
+                        })}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-md hover:scale-105"
+                      >
+                        <ExternalLink className="w-4 h-4" />
+                        <span>{language === 'ar' ? 'فتح تطبيق البريد لإرسال نسخة' : 'Open Email App to Send Copy'}</span>
+                      </a>
+                    )}
+                    <Button
+                      variant="secondary"
+                      onClick={() => setIsSuccess(false)}
+                      className="hover:scale-105"
+                    >
+                      {language === 'ar' ? 'إرسال طلب جديد' : 'Submit Another Request'}
+                    </Button>
+                  </div>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="flex flex-col gap-6">
@@ -342,7 +383,7 @@ export const QuotePage: React.FC = () => {
                     rightIcon={<Send className="w-4 h-4" />}
                     className="w-full mt-2 shadow-md"
                   >
-                    {isSubmitting ? (language === 'ar' ? 'جاري الحفظ في قاعدة البيانات...' : 'Saving to Database...') : t.quote.submitBtn}
+                    {isSubmitting ? (language === 'ar' ? 'جاري الحفظ وإرسال الإيميل...' : 'Saving & Dispatching Email...') : t.quote.submitBtn}
                   </Button>
                 </form>
               )}
