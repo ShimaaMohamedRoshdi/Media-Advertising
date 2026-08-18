@@ -137,7 +137,7 @@ export const LocationsPreviewSection: React.FC<LocationsPreviewSectionProps> = (
                 <div
                   key={loc.id}
                   style={{ animationDelay: `${idx * 150}ms` }}
-                  className={`interactive-card bg-white p-6 rounded-2xl border flex flex-col sm:flex-row gap-6 group shadow-sm animate-fade-in-up min-w-0 overflow-hidden ${
+                  className={`interactive-card bg-white p-5 sm:p-6 rounded-2xl border flex flex-col sm:flex-row gap-6 group shadow-sm animate-fade-in-up min-w-0 overflow-hidden ${
                     isShangriLa
                       ? 'border-blue-400 ring-2 ring-blue-500/20'
                       : 'border-slate-200'
@@ -181,7 +181,7 @@ export const LocationsPreviewSection: React.FC<LocationsPreviewSectionProps> = (
                         )}
                       </div>
 
-                      <h3 className="text-lg font-black text-slate-900 group-hover:text-blue-900 transition-colors line-clamp-1">
+                      <h3 className="text-base sm:text-lg font-black text-slate-900 group-hover:text-blue-900 transition-colors line-clamp-1">
                         {locName}
                       </h3>
 
@@ -195,26 +195,26 @@ export const LocationsPreviewSection: React.FC<LocationsPreviewSectionProps> = (
                       </div>
                     </div>
 
-                    {/* Specs pill & Responsive Buttons Bar */}
-                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between pt-3 border-t border-slate-100 gap-3">
-                      <span className="text-[11px] text-slate-500 font-medium flex items-center gap-1 truncate max-w-full sm:max-w-[150px]">
+                    {/* Ultra-Sleek Mobile Responsive Action Bar */}
+                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between pt-3 border-t border-slate-100 gap-2.5">
+                      <span className="text-[11px] text-slate-500 font-semibold flex items-center gap-1 truncate">
                         <Cpu className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
                         <span className="truncate">{locZone}</span>
                       </span>
 
-                      {/* Fully Mobile Responsive Buttons Group */}
-                      <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 w-full sm:w-auto">
+                      {/* Side-by-side on grid or stacked perfectly */}
+                      <div className="grid grid-cols-2 sm:flex items-center gap-2 w-full sm:w-auto shrink-0">
                         <Button
-                          variant="ghost"
+                          variant="outline"
                           size="sm"
                           onClick={() => setSelectedLocation(loc)}
                           rightIcon={<Eye className="w-3.5 h-3.5" />}
-                          className="flex-1 sm:flex-none text-xs font-bold py-2"
+                          className="w-full sm:w-auto text-xs font-bold py-2 whitespace-nowrap justify-center"
                         >
                           {t.locations.specs}
                         </Button>
-                        <Link to={`/request-quote?location=${encodeURIComponent(locName)}`} className="flex-1 sm:flex-none w-full sm:w-auto">
-                          <Button variant="primary" size="sm" rightIcon={<ArrowRight className="w-3.5 h-3.5" />} className="w-full text-xs font-bold py-2 whitespace-normal text-center">
+                        <Link to={`/request-quote?location=${encodeURIComponent(locName)}`} className="w-full sm:w-auto">
+                          <Button variant="primary" size="sm" rightIcon={<ArrowRight className="w-3.5 h-3.5" />} className="w-full sm:w-auto text-xs font-bold py-2 whitespace-nowrap justify-center shadow-md">
                             {t.locations.getDetails}
                           </Button>
                         </Link>

@@ -65,7 +65,7 @@ export const translations = {
       booked: 'Booked',
       specs: 'Specifications',
       reserve: 'Reserve Screen Slot',
-      getDetails: 'Request Quote for Location',
+      getDetails: 'Request Quote',
       btnAll: 'Explore All 4 Boulevard Locations',
     },
     projects: {
@@ -226,7 +226,7 @@ export const translations = {
       booked: 'محجوزة',
       specs: 'المواصفات الفنية',
       reserve: 'حجز موقع إعلاني',
-      getDetails: 'طلب تفاصيل وأسعار الموقع',
+      getDetails: 'طلب عرض سعر',
       btnAll: 'استكشف جميع مواقع البوليفارد الـ 4',
     },
     projects: {
@@ -301,7 +301,7 @@ export const translations = {
       officeLabel: 'عنوان المكتب الرئيسي',
       hoursLabel: 'ساعات العمل الرسمية',
       hoursText: 'من الأحد إلى الخميس: 8:00 صباحاً - 6:00 مساءً بتوقيت الإمارات',
-      addressText: 'شارع الشيخ زايد، منطقة مبنى شانغريلا، دبي، الإمارات العربية المتحدة',
+      addressText: 'شارع الشيخ زايد، منطقة مب المبنى شانغريلا، دبي، الإمارات العربية المتحدة',
       whatsappBtn: 'محادثة مباشرة عبر واتساب',
       mapLabel: 'خريطة الموقع التفاعلية',
       formTitle: 'أرسل لنا رسالة مباشرة',
