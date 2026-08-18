@@ -90,7 +90,7 @@ export const LocationsPreviewSection: React.FC<LocationsPreviewSectionProps> = (
         )}
 
         {/* Anchor Landmark Notice */}
-        <div className="mt-8 max-w-3xl mx-auto p-4 rounded-2xl bg-blue-50 border border-blue-200 flex items-center justify-between gap-4 text-xs shadow-xs">
+        <div className="mt-8 max-w-3xl mx-auto p-4 rounded-2xl bg-blue-50 border border-blue-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs shadow-xs">
           <div className="flex items-center gap-3">
             <MapPin className="w-5 h-5 text-blue-700 shrink-0" />
             <div>
@@ -102,7 +102,7 @@ export const LocationsPreviewSection: React.FC<LocationsPreviewSectionProps> = (
               </span>
             </div>
           </div>
-          <Badge variant="gold" size="sm" className="hidden sm:inline-flex">
+          <Badge variant="gold" size="sm" className="shrink-0 self-start sm:self-auto">
             {language === 'ar' ? 'منطقة معتمدة' : 'VERIFIED ZONE'}
           </Badge>
         </div>
@@ -195,28 +195,32 @@ export const LocationsPreviewSection: React.FC<LocationsPreviewSectionProps> = (
                       </div>
                     </div>
 
-                    {/* Specs pill & Button */}
-                    <div className="flex flex-wrap items-center justify-between pt-3 border-t border-slate-100 gap-2">
-                      <span className="text-[11px] text-slate-500 font-medium flex items-center gap-1 truncate max-w-[170px]">
+                    {/* Specs pill & Responsive Buttons Bar */}
+                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between pt-3 border-t border-slate-100 gap-3">
+                      <span className="text-[11px] text-slate-500 font-medium flex items-center gap-1 truncate max-w-full sm:max-w-[150px]">
                         <Cpu className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
                         <span className="truncate">{locZone}</span>
                       </span>
-                      <div className="flex items-center gap-2 shrink-0">
+
+                      {/* Fully Mobile Responsive Buttons Group */}
+                      <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 w-full sm:w-auto">
                         <Button
                           variant="ghost"
                           size="sm"
                           onClick={() => setSelectedLocation(loc)}
                           rightIcon={<Eye className="w-3.5 h-3.5" />}
+                          className="flex-1 sm:flex-none text-xs font-bold py-2"
                         >
                           {t.locations.specs}
                         </Button>
-                        <Link to={`/request-quote?location=${encodeURIComponent(locName)}`}>
-                          <Button variant="primary" size="sm" rightIcon={<ArrowRight className="w-3.5 h-3.5" />}>
+                        <Link to={`/request-quote?location=${encodeURIComponent(locName)}`} className="flex-1 sm:flex-none w-full sm:w-auto">
+                          <Button variant="primary" size="sm" rightIcon={<ArrowRight className="w-3.5 h-3.5" />} className="w-full text-xs font-bold py-2 whitespace-normal text-center">
                             {t.locations.getDetails}
                           </Button>
                         </Link>
                       </div>
                     </div>
+
                   </div>
                 </div>
               );
